@@ -1,0 +1,5 @@
+[tools]
+aws = { version = "2.13.23", symlink_bins = "true" }
+node = "22.17.1"
+terraform = "1.14.2"
+terragrunt = "0.95.1"
