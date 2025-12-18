@@ -1,2 +1,4 @@
-.aws-sam
 .env
+.DS_Store
+./**/.DS_Store
+./**/.terragrunt-cache
