@@ -3,20 +3,12 @@ terraform {
 }
 
 include "root" {
-  path   = find_in_parent_folders("root.hcl")
-}
-
-include "common_vars" {
-  path   = find_in_parent_folders("common_vars.hcl")
+  path = find_in_parent_folders("root.hcl")
   expose = true
 }
 
-include "env_vars" {
-  path   = find_in_parent_folders("env_vars.hcl")
-  expose = true
-}
-
+# Can it be done in a nicer way?
 inputs = {
-  name     = include.common_vars.locals.name
-  env_type = include.common_vars.locals.env_type
+  name     = include.root.locals.common_vars.locals.name
+  env_type = include.root.locals.env_vars.locals.env_type
 }
