@@ -3,7 +3,7 @@ locals {
   aws_provider_version = "6.27.0"
 
   common_vars = read_terragrunt_config(find_in_parent_folders("common_vars.hcl"))
-  env_vars    = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+  env_vars    = read_terragrunt_config(find_in_parent_folders("env_vars.hcl"))
 
   env_type   = local.env_vars.locals.env_type
   aws_region = local.common_vars.locals.aws_region
