@@ -1,4 +1,4 @@
 .env
 .DS_Store
-./**/.DS_Store
-./**/.terragrunt-cache
+**/.DS_Store
+**/.terragrunt-cache
