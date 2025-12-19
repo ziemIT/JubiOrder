@@ -5,9 +5,13 @@ locals {
   common_vars = read_terragrunt_config(find_in_parent_folders("common_vars.hcl"))
   env_vars    = read_terragrunt_config(find_in_parent_folders("env.hcl"))
 
-  env_type     = local.env_vars.locals.env_type
-  aws_region   = local.common_vars.locals.aws_region
-  default_tags = local.common_vars.locals.default_tags
+  env_type   = local.env_vars.locals.env_type
+  aws_region = local.common_vars.locals.aws_region
+
+  default_tags = merge(
+    local.common_vars.locals.common_tags,
+    local.env_vars.locals.env_tags
+  )
 }
 
 

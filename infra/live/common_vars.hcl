@@ -3,9 +3,9 @@ locals {
 
     aws_region = "eu-central-1"
 
-    default_tags = {
-        Environment         = "dupa"
-        ManagedByTerragrunt = "True"
+    common_tags = {
+        App                 = local.name
         Owner               = "Ziemi" 
+        ManagedByTerragrunt = "True"
     }
 }
