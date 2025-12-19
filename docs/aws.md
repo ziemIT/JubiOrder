@@ -5,8 +5,8 @@ NOTE: I used cloudflare because I have my domain there.
 in cloudflare dashboard, using email routing I created 2 routing rules
 which forward emails to my personal email account.
 
-aws-dev@ziemian.top
-aws-prd@ziemian.top
+aws-dev@domain.com
+aws-prd@domain.com
 
 this step was required to allow me to set up aws organizations.
 
