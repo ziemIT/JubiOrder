@@ -11,5 +11,5 @@ include "root" {
 # Can it be done in a nicer way?
 inputs = {
   name     = include.root.locals.common_vars.locals.name
-  env_type = include.root.locals.env_vars.locals.env_type
+  env_name = include.root.locals.env_vars.locals.env_name
 }

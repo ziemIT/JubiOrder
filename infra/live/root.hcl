@@ -2,11 +2,12 @@ locals {
   tofu_version         = "1.11.1"
   aws_provider_version = "6.27.0"
 
-  common_vars = read_terragrunt_config(find_in_parent_folders("common_vars.hcl"))
-  env_vars    = read_terragrunt_config(find_in_parent_folders("env_vars.hcl"))
+  common_vars   = read_terragrunt_config(find_in_parent_folders("common_vars.hcl"))
+  regional_vars = read_terragrunt_config(find_in_parent_folders("regional_vars.hcl"))
+  env_vars      = read_terragrunt_config(find_in_parent_folders("env_vars.hcl"))
 
   env_type   = local.env_vars.locals.env_type
-  aws_region = local.common_vars.locals.aws_region
+  aws_region = local.regional_vars.locals.aws_region
 
   default_tags = merge(
     local.common_vars.locals.common_tags,
@@ -19,7 +20,8 @@ locals {
 remote_state {
   backend  = "s3"
   config   = {
-    bucket         = "jubio-tfstate-${local.aws_region}-${local.env_type}"
+    // bucket         = "jubio-tfstate-${local.aws_region}-${local.env_type}"
+    bucket = "jubio-tfstate-eu-central-1-tmp-dev"
     key            = "${path_relative_to_include()}/tofu.tfstate"
     region         = local.aws_region
     encrypt        = true
