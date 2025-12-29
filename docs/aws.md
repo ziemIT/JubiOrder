@@ -2,22 +2,24 @@ this is how I set up accounts and users for this project using cloudflare email 
 
 NOTE: I used cloudflare because I have my domain there.
 
+this setup allowed me to avoid storing any credentials on my pc nor in github repo for cicd.
+
 in cloudflare dashboard, using email routing I created 2 routing rules
 which forward emails to my personal email account.
 
-aws-dev@domain.com
-aws-prd@domain.com
+- aws-dev@domain.com
+- aws-prd@domain.com
 
 this step was required to allow me to set up aws organizations.
 
 so then i enabled aws organizations (free service) and created new organization.
 inside i created org unit for my project and 2 child OUs:
 ```
-root
-    -> JubiOrder
-        -> dev
+Root OU
+    -> JubiOrder OU 
+        -> dev OU 
             -> dev account
-        -> prod
+        -> prod OU 
             -> prod account
     -> my management account
 ```

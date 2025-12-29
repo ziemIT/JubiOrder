@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "products" {
-  name         = "${var.name}-products-${var.env_type}"
+  name         = "${var.name}-products-${var.env_name}"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "product_id"
 
@@ -9,6 +9,6 @@ resource "aws_dynamodb_table" "products" {
   }
 
   tags = {
-    Name = "${var.name}-products-${var.env_type}"
+    Name = "${var.name}-products-${var.env_name}"
   }
 }
