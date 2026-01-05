@@ -16,7 +16,7 @@ locals {
 }
 
 
-# TODO: configure role assumption for opentofu
+//TODO: configure role assumption for opentofu
 remote_state {
   backend  = "s3"
   config   = {

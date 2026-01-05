@@ -1,9 +1,9 @@
-variable "env_name" {
-  description = "Environment name"
+variable "table_name" {
+  description = "The name of the DynamoDB table"
   type        = string
 }
 
-variable "name" {
-  description = "The name of the DynamoDB table"
+variable "hash_key" {
+  description = "Hash Key"
   type        = string
 }
