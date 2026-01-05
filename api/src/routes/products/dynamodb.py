@@ -2,7 +2,7 @@
 #TODO: to be removed
 import json
 from typing import Any, Dict, List
-
+import botocore.exceptions
 
 class DynamoDbTable:
     def __init__(self, ddb_client: Any, table_name: str) -> None:
@@ -48,24 +48,38 @@ class DynamoDbTable:
             }
         return output
 
+
     def put_items(self, items: List[Dict[str, Any]], limit: int = 5) -> Dict[str, Any]:
-        """
-        TBA
-        """
         output = []
         num_items = len(items)
         if num_items > limit:
             raise ValueError(f"Too many items. Limit is {limit}")
-        with self.table.batch_writer() as batch:
-            for i in range(num_items):
-                try:
-                    result = batch.put_item(Item=items[i])
-                except Exception as e:
-                    result = {'error': str(e)}
-                output.append(result)
-        response = {
+        for item in items:
+            try:
+                self._table.put_item(
+                    Item=item,
+                    ConditionExpression='attribute_not_exists(product_id)',
+                )
+                output.append({
+                    "product_id": item.get("product_id"),
+                    "status": "success"
+                })
+            except botocore.exceptions.ClientError as e:
+                # Catch the specific condition failure
+                if e.response['Error']['Code'] == "ConditionalCheckFailedException":
+                    output.append({
+                        "product_id": item.get("product_id"),
+                        "status": "skipped",
+                        "reason": "exists"
+                    })
+                else:
+                    output.append({
+                        "product_id": item.get("product_id"),
+                        "status": "error",
+                        "reason": str(e)
+                    })
+        return {
             'statusCode': 200,
             'body': json.dumps({'output': output}),
             'headers': {'Content-Type': 'application/json'}
         }
-        return response
