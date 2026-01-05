@@ -1,7 +1,7 @@
 #TODO: add boto3 types
 #TODO: to be removed
 import json
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 
 class DynamoDbTable:
@@ -19,6 +19,7 @@ class DynamoDbTable:
             raise ValueError("table_name cannot be None or empty")
         self._table = self._ddb_client.Table(table_name)
 
+    #TODO: get_items with a integer limit or 0 if no limit
     def get_all_items(self) -> Dict[str, Any]:
         """
         - Uses boto3 dynamodb's Table.scan() method to fetch data.
@@ -47,35 +48,24 @@ class DynamoDbTable:
             }
         return output
 
-
-    def put_item(self, item: Dict[str, Any]) -> Dict[str, Any]:
-        raise NotImplementedError
-        # item = {
-        #     'product_Id': product_id,       # Partition Key
-        #     'name': body['name'],           # String
-        #     'description': body.get('description', ''), # String (pusty jeśli brak)
-        #     'price': price,                 # Number (Decimal)
-        #     'image_URL': body.get('image_URL') # String lub None (DynamoDB obsłuży null)
-        # }
-
-        # 4. Zapis do bazy (put_item nadpisuje item jeśli klucz już istnieje)
-        # try:
-        #     table.put_item(Item=item)
-        #     # 5. Sukces - zwracamy ID utworzonego produktu
-        #     output = {
-        #         'statusCode': 201,
-        #         'body': json.dumps(
-        #             {
-        #                 'message': 'Item added',
-        #                 'product_Id': 'Id' # TODO: chanfge this
-        #             }
-        #         ),
-        #         'headers': {'Content-Type': 'application/json'}
-        #     }
-        # except Exception as e:
-        #     print(f"Error: {str(e)}")
-        #     output = {
-        #         'statusCode': 500,
-        #         'body': json.dumps({'error': str(e)})
-        #     }
-        # return output
+    def put_items(self, items: List[Dict[str, Any]], limit: int = 5) -> Dict[str, Any]:
+        """
+        TBA
+        """
+        output = []
+        num_items = len(items)
+        if num_items > limit:
+            raise ValueError(f"Too many items. Limit is {limit}")
+        with self.table.batch_writer() as batch:
+            for i in range(num_items):
+                try:
+                    result = batch.put_item(Item=items[i])
+                except Exception as e:
+                    result = {'error': str(e)}
+                output.append(result)
+        response = {
+            'statusCode': 200,
+            'body': json.dumps({'output': output}),
+            'headers': {'Content-Type': 'application/json'}
+        }
+        return response

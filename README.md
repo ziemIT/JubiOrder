@@ -15,7 +15,7 @@
 - [ ] add boto3 type hints in source code
 - [ ] in routes/products/ change code to use src.helpers, make it work and remove file from route path 
 - [ ] checkout sam local invoke https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/using-sam-cli-local-invoke.html
-
+- [ ] disable auto log out after 1 h while using aws console
 
 # Done so far
 - [x] modify terragrunt setup to support multiple dev,prod envs (diff with account id?)

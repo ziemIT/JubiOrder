@@ -14,8 +14,12 @@ data "aws_iam_policy_document" "assume_role" {
 #NOTE: what if lambda should not have access to dynamodb at all?
 data "aws_iam_policy_document" "policy" {
   statement {
-    effect    = "Allow"
-    actions   = ["dynamodb:Scan"]
+    effect  = "Allow"
+    actions = [
+      "dynamodb:Scan",
+      "dynamodb:PutItem",
+      "dynamodb:BatchWriteItem"
+    ]
     #TODO: should be change to given dynamodb table
     resources = ["*"]
   }
